@@ -1,1 +1,1 @@
-# expense-tracker-gitops
+# eks-sre-reliability-lab
