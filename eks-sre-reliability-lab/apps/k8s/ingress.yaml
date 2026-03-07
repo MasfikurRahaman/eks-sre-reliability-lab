@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shop-ingress
+  namespace: apps
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+
+      - path: /api/catalog
+        pathType: Prefix
+        backend:
+          service:
+            name: catalog-api
+            port:
+              number: 8080
+
+      - path: /api/checkout
+        pathType: Prefix
+        backend:
+          service:
+            name: checkout-api
+            port:
+              number: 8080

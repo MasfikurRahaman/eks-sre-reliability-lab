@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>SRE Shop</title>
+</head>
+
+<body>
+
+<h1>SRE Reliability Lab Shop</h1>
+
+<h2>Product Catalog</h2>
+
+<div id="catalog"></div>
+
+<script>
+
+async function loadCatalog(){
+
+const response = await fetch("/api/catalog")
+
+const products = await response.json()
+
+let html=""
+
+products.forEach(product => {
+
+html += `
+<div style="margin-bottom:10px">
+<b>${product.name}</b> - $${product.price}
+<button onclick="checkout('${product.name}')">Buy</button>
+</div>
+`
+
+})
+
+document.getElementById("catalog").innerHTML = html
+}
+
+async function checkout(product){
+
+const response = await fetch("/api/checkout",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(product)
+})
+
+const data = await response.json()
+
+alert(data.message)
+
+}
+
+loadCatalog()
+
+</script>
+
+</body>
+
+</html>
